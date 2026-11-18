@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: observed-world-simulation
+    runtime: node
+    plan: free
+    region: singapore
+    buildCommand: npm install --no-audit --no-fund
+    startCommand: npm start
+    healthCheckPath: /api/health
+    envVars:
+      - key: GEMINI_MODEL
+        value: gemini-2.5-flash
+      # Add GEMINI_API_KEY as a secret using Render dashboard. Never commit keys.
