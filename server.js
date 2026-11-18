@@ -66,7 +66,9 @@ const server = http.createServer(async (req,res) => {
     } catch(error) { return json(res,400,{error:'人物生成リクエストを処理できませんでした'}); }
   }
   if(req.method !== 'GET' && req.method !== 'HEAD'){res.writeHead(405);return res.end();}
-  let target = decodeURIComponent(url.pathname === '/' ? '/index.html' : url.pathname);
+  let target;
+  try { target = decodeURIComponent(url.pathname === '/' ? '/index.html' : url.pathname); }
+  catch {res.writeHead(400);return res.end('Invalid URL');}
   if(target.includes('\0')) {res.writeHead(400);return res.end();}
   const file=resolve(PUBLIC,'.'+target);
   if(!(file===PUBLIC || file.startsWith(PUBLIC+sep))){res.writeHead(403);return res.end();}
